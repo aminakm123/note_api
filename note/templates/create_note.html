@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Note</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Create Note</h1>
+    <form id="create-note-form">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title">
+        <br>
+        <label for="body">Body:</label>
+        <textarea id="body" name="body"></textarea>
+        <br>
+        <button type="submit">Save</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+        // Handle form submission
+            $('#create-note-form').submit(function(event) {
+                event.preventDefault();
+
+                // Get the form data
+                var title = $('#title').val();
+                var body = $('#body').val();
+
+                // Create the note object
+                var note = {
+                    title: title,
+                    body: body
+                };
+
+                // Send a POST request to create the note
+                $.ajax({
+                    url: '/api/v1/notes_api/note/create/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify(note),
+                    contentType: 'application/json',
+                    success: function(data) {
+                        // Redirect to the list page or show a success message
+                        window.location.href = '/api/v1/notes_api/notes/';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
